@@ -148,13 +148,21 @@
 <script>
 (function(){
   function fire(key, code){
+    // deck-stage.js attaches keydown to `window`, so dispatch THERE
     var ev = new KeyboardEvent('keydown', {key:key, code:code, bubbles:true, cancelable:true});
-    document.dispatchEvent(ev);
-    var stage = document.querySelector('deck-stage');
-    if (stage) stage.dispatchEvent(new KeyboardEvent('keydown', {key:key, code:code, bubbles:true}));
+    window.dispatchEvent(ev);
   }
-  document.getElementById('nav-prev').addEventListener('click', function(e){e.preventDefault(); fire('ArrowLeft','ArrowLeft');});
-  document.getElementById('nav-next').addEventListener('click', function(e){e.preventDefault(); fire('ArrowRight','ArrowRight');});
+  function bind(id, key){
+    var el = document.getElementById(id);
+    function go(e){ e.preventDefault(); e.stopPropagation(); fire(key, key); }
+    // pointerdown fires reliably on mobile + desktop; click as fallback
+    el.addEventListener('pointerdown', go, {passive:false});
+    el.addEventListener('click', go);
+    el.addEventListener('touchstart', go, {passive:false});
+  }
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', function(){ bind('nav-prev','ArrowLeft'); bind('nav-next','ArrowRight'); });
+  } else { bind('nav-prev','ArrowLeft'); bind('nav-next','ArrowRight'); }
 })();
 </script>
 
