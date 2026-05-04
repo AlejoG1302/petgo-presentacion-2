@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Pet&Go — Presentación 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&family=Caveat:wght@400;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root{
+    --espresso:#3A2417;
+    --brown:#5A3E2B;
+    --brown-2:#6E4D37;
+    --cream:#EDE5DC;
+    --cream-2:#F5EFE7;
+    --orange:#E8A547;
+    --orange-2:#F2C57C;
+    --teal:#2E5F6F;
+    --teal-2:#3B7384;
+    --yellow:#FCD34D;
+    --white:#FFFFFF;
+  }
+  html,body{margin:0;padding:0;background:#1a0f0a;font-family:'Open Sans',sans-serif;}
+  deck-stage section{
+    background:var(--espresso);
+    color:#fff;
+    overflow:hidden;
+    position:relative;
+    font-family:'Open Sans',sans-serif;
+  }
+  /* HEADER + FOOTER (shared chrome) */
+  .chrome-tl{position:absolute;top:36px;left:54px;display:flex;align-items:center;gap:14px;z-index:5;}
+  .chrome-tr{position:absolute;top:36px;right:54px;display:flex;align-items:center;gap:14px;z-index:5;font-family:'Montserrat',sans-serif;font-size:13px;letter-spacing:.18em;font-weight:600;}
+  .chrome-fl{position:absolute;bottom:30px;left:54px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.22em;color:rgba(255,255,255,.55);font-weight:500;z-index:5;}
+  .chrome-fr{position:absolute;bottom:30px;right:54px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:.22em;color:rgba(255,255,255,.45);font-weight:500;z-index:5;}
+  .breadcrumb{font-family:'Montserrat',sans-serif;font-size:12px;letter-spacing:.24em;color:rgba(255,255,255,.7);font-weight:600;}
+  .duoc{display:flex;align-items:center;gap:10px;}
+  .duoc-mark{width:30px;height:30px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:0;}
+  .paw-tl{width:22px;height:22px;}
+  .light .chrome-fl,.light .chrome-fr{color:rgba(58,36,23,.55);}
+  .light .breadcrumb{color:rgba(58,36,23,.75);}
+  .light .chrome-tr{color:var(--espresso);}
+  .light .duoc-mark{border-color:var(--espresso);color:var(--espresso);}
+
+  /* Decorative paws (background) */
+  .paws{position:absolute;inset:0;pointer-events:none;z-index:0;}
+  .paw{position:absolute;opacity:.07;}
+  .light .paw{opacity:.08;}
+
+  /* Type system */
+  .h1{font-family:'Montserrat',sans-serif;font-weight:900;letter-spacing:.005em;line-height:1.02;text-transform:uppercase;}
+  .script{font-family:'Caveat',cursive;font-weight:700;color:var(--orange);}
+  .body{font-family:'Open Sans',sans-serif;}
+  .mono-label{font-family:'Montserrat',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-weight:700;font-size:13px;}
+  .divider{height:3px;width:96px;background:var(--orange);border-radius:2px;}
+
+  /* Logo lockup (custom typographic — original) */
+  .logo-lockup{display:inline-flex;align-items:baseline;gap:0;line-height:1;}
+  .logo-lockup .pet{font-family:'Playfair Display',serif;font-weight:900;color:var(--orange);letter-spacing:.01em;}
+  .logo-lockup .amp{font-family:'Playfair Display',serif;font-weight:700;color:var(--orange);margin:0 .05em;}
+  .logo-lockup .go{font-family:'Playfair Display',serif;font-weight:900;color:var(--orange);}
+  .logo-expert{font-family:'Caveat',cursive;font-weight:700;color:var(--teal);margin-left:.25em;transform:translateY(.05em);}
+  .logo-est{display:block;font-family:'Montserrat',sans-serif;font-weight:500;letter-spacing:.4em;color:var(--teal);font-size:.18em;margin-top:.2em;text-align:center;}
+
+  /* Cards */
+  .card{background:var(--brown);border-radius:16px;padding:34px 36px;box-shadow:0 6px 18px rgba(0,0,0,.18);}
+  .card.cream{background:var(--cream);color:var(--espresso);}
+  .card.outline{background:transparent;border:1.5px solid rgba(255,255,255,.18);}
+  .icon-circle{width:64px;height:64px;border-radius:50%;background:var(--brown);display:grid;place-items:center;flex:none;}
+  .light .icon-circle{background:var(--espresso);}
+  .icon-circle svg{width:30px;height:30px;stroke:var(--orange);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .num-box{width:64px;height:64px;background:var(--brown);border-radius:10px;display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:30px;color:var(--orange-2);}
+
+  .badge-rec{display:inline-flex;align-items:center;gap:8px;background:var(--orange);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:.18em;padding:8px 16px;border-radius:6px;font-size:12px;text-transform:uppercase;}
+  .kpi-badge{display:inline-block;background:var(--yellow);color:var(--espresso);font-family:'Montserrat',sans-serif;font-weight:800;padding:6px 14px;border-radius:8px;font-size:13px;letter-spacing:.06em;}
+
+  .check{width:18px;height:18px;border-radius:50%;background:var(--orange);display:inline-grid;place-items:center;flex:none;}
+  .check::before{content:"";width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);}
+
+  /* Tables */
+  table.deck{width:100%;border-collapse:separate;border-spacing:0;font-family:'Open Sans',sans-serif;font-size:18px;border-radius:12px;overflow:hidden;}
+  table.deck th{background:var(--orange);color:var(--espresso);font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:.06em;text-align:left;padding:16px 18px;font-size:14px;text-transform:uppercase;}
+  table.deck td{padding:16px 18px;vertical-align:top;color:#fff;border-top:1px solid rgba(255,255,255,.08);}
+  table.deck tr:nth-child(odd) td{background:rgba(255,255,255,.04);}
+  table.deck tr:nth-child(even) td{background:rgba(255,255,255,.01);}
+  table.deck.light th{background:var(--brown);color:#fff;}
+  table.deck.light td{color:var(--espresso);border-top:1px solid rgba(58,36,23,.1);}
+  table.deck.light tr:nth-child(odd) td{background:rgba(255,255,255,.55);}
+  table.deck.light tr:nth-child(even) td{background:rgba(255,255,255,.25);}
+
+  /* Photo placeholders (no copyrighted imagery) */
+  .photo-ph{
+    background:
+      repeating-linear-gradient(45deg, rgba(232,165,71,.18) 0 12px, rgba(232,165,71,.06) 12px 24px),
+      linear-gradient(135deg,#7a4a30,#3a2417);
+    border-radius:18px;
+    display:grid;place-items:center;
+    color:rgba(255,255,255,.7);
+    font-family:'Montserrat',sans-serif;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    font-size:12px;font-weight:700;
+    text-align:center;padding:18px;
+    overflow:hidden;position:relative;
+  }
+  .photo-ph::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(60% 50% at 50% 40%, rgba(242,197,124,.25), transparent 70%);
+    pointer-events:none;
+  }
+  .photo-ph .ph-tag{position:relative;z-index:1;}
+
+  /* Mockup chrome */
+  .phone{
+    width:300px;background:#111;border-radius:36px;padding:14px;
+    box-shadow:0 18px 40px rgba(0,0,0,.45);
+  }
+  .phone-screen{background:#fff;border-radius:24px;overflow:hidden;color:#111;font-size:12px;}
+</style>
+</head>
+<body>
+
+<script type="application/json" id="speaker-notes">[]</script>
+
+<!-- Reusable SVG paw glyph -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="paw" viewBox="0 0 64 64">
+      <ellipse cx="32" cy="42" rx="14" ry="11"/>
+      <ellipse cx="14" cy="26" rx="6" ry="8"/>
+      <ellipse cx="50" cy="26" rx="6" ry="8"/>
+      <ellipse cx="22" cy="14" rx="5" ry="7"/>
+      <ellipse cx="42" cy="14" rx="5" ry="7"/>
+    </symbol>
+  </defs>
+</svg>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============ SLIDE 1 — PORTADA ============ -->
+<section data-label="01 Portada">
+  <!-- Photo background -->
+  <div style="position:absolute;inset:0;background-image:url('img/portada.jpg');background-size:cover;background-position:center;">
+    <div style="position:absolute;inset:0;background:
+      linear-gradient(135deg, rgba(58,36,23,.55) 0%, rgba(42,24,16,.78) 100%),
+      radial-gradient(70% 80% at 30% 40%, rgba(232,165,71,.18), transparent 60%);"></div>
+  </div>
+
+  <!-- Top chrome -->
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb" style="color:rgba(255,255,255,.85)">PRESENTACIÓN N°2</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <!-- Translucent center card -->
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1100px;background:rgba(58,36,23,.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:64px 72px 56px;text-align:center;">
+    <!-- Logo lockup -->
+    <div style="font-size:78px;">
+      <span class="logo-lockup">
+        <span class="pet">PET</span><span class="amp">&amp;</span><span class="go">GO</span>
+        <span class="logo-expert" style="font-size:46px;">Expert</span>
+      </span>
+    </div>
+    <div class="logo-est" style="font-size:14px;letter-spacing:.5em;color:var(--orange-2);margin-top:8px;">— EST · 2007 —</div>
+
+    <!-- Orange title sub-card -->
+    <div style="margin:36px auto 0;background:var(--orange);border-radius:14px;padding:24px 40px 22px;display:inline-block;text-align:center;">
+      <div class="script" style="color:#fff;font-size:42px;line-height:1.1;white-space:nowrap;">Análisis y Diseño eCommerce</div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;color:#fff;letter-spacing:.22em;font-size:14px;margin-top:10px;">PET&amp;GO CHILE · PRESENTACIÓN 2</div>
+    </div>
+
+    <div style="margin-top:28px;font-family:'Montserrat',sans-serif;font-size:15px;letter-spacing:.16em;color:rgba(255,255,255,.78);">DOCENTE · MACARENA ASTORGA</div>
+  </div>
+
+  <!-- Authors card -->
+  <div style="position:absolute;right:80px;bottom:120px;background:var(--cream);color:var(--espresso);border-radius:14px;padding:20px 28px;box-shadow:0 10px 28px rgba(0,0,0,.3);">
+    <div class="mono-label" style="color:var(--orange);font-size:11px;">EQUIPO</div>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;line-height:1.5;margin-top:6px;">
+      Andrea Flores<br>Alejandro García<br>Jelanny Vera
+    </div>
+  </div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">MKA1216 · EVALUACIÓN PARCIAL N°2 · 25%</div>
+</section>
+
+<!-- ============ SLIDE 2 — HOJA DE RUTA ============ -->
+<section data-label="02 Hoja de Ruta">
+  <div class="paws">
+    <svg class="paw" style="top:60px;right:120px;width:90px;height:90px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:120px;left:80px;width:70px;height:70px;transform:rotate(25deg);" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="top:380px;left:1700px;width:60px;height:60px;" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">AGENDA</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:140px;">
+    <div class="script" style="font-size:42px;">el camino que recorreremos juntos</div>
+    <h1 class="h1" style="color:#fff;font-size:88px;margin:8px 0 0;">HOJA DE RUTA</h1>
+    <div class="divider" style="margin-top:24px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;top:480px;right:100px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;">
+    <!-- Block template -->
+    <div class="card outline" style="padding:32px 28px;">
+      <div class="num-box" style="margin-bottom:22px;">01</div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:24px;color:#fff;letter-spacing:.02em;">Social Commerce</div>
+      <div style="height:2px;width:40px;background:var(--orange);margin:14px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.45;">Activos digitales y oportunidades de conversión.</div>
+    </div>
+    <div class="card outline" style="padding:32px 28px;">
+      <div class="num-box" style="margin-bottom:22px;">02</div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:24px;color:#fff;">Plataformas eCommerce</div>
+      <div style="height:2px;width:40px;background:var(--orange);margin:14px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.45;">Comparativa, TCO y recomendación.</div>
+    </div>
+    <div class="card outline" style="padding:32px 28px;">
+      <div class="num-box" style="margin-bottom:22px;">03</div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:24px;color:#fff;">Customer Journey</div>
+      <div style="height:2px;width:40px;background:var(--orange);margin:14px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.45;">Recorrido end-to-end del cliente.</div>
+    </div>
+    <div class="card outline" style="padding:32px 28px;">
+      <div class="num-box" style="margin-bottom:22px;">04</div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:24px;color:#fff;">Mejoras UX/UI</div>
+      <div style="height:2px;width:40px;background:var(--orange);margin:14px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.78);font-size:18px;line-height:1.45;">Wireframes y métricas objetivo.</div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;right:100px;bottom:120px;height:2px;background:linear-gradient(90deg,var(--orange) 0,var(--orange) 30%,transparent 30%);"></div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">02 / 16</div>
+</section>
+
+<!-- ============ SLIDE 3 — PET&GO HOY ============ -->
+<section data-label="03 Pet&Go Hoy">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:80px;width:80px;height:80px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:200px;left:60px;width:60px;height:60px;transform:rotate(-20deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">CONTEXTO</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;">
+    <div class="script" style="font-size:36px;">una base digital con margen de optimización</div>
+    <h1 class="h1" style="color:#fff;font-size:78px;margin:6px 0 0;">PET&amp;GO HOY</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <!-- Photo left -->
+  <div style="position:absolute;left:100px;top:380px;width:520px;height:540px;border-radius:18px;background-image:url('img/mascota-recorte.jpg');background-size:cover;background-position:center;box-shadow:0 18px 40px rgba(0,0,0,.45);overflow:hidden;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 55%, rgba(58,36,23,.45) 100%);"></div>
+  </div>
+
+  <!-- 3 blocks right -->
+  <div style="position:absolute;left:680px;top:380px;right:100px;display:flex;flex-direction:column;gap:22px;">
+    <div class="card" style="display:flex;gap:24px;align-items:flex-start;padding:26px 30px;">
+      <div class="icon-circle"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 14h8"/></svg></div>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;color:#fff;">Tienda online operativa</div>
+        <div class="body" style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:6px;">petandgo-store.cl con catálogo, fichas, carrito y checkout completos.</div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;gap:24px;align-items:flex-start;padding:26px 30px;">
+      <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg></div>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;color:#fff;">Stack detectado</div>
+        <div class="body" style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:6px;">Bsale 5.5 · GA4 · GTM · Facebook Pixel · Webpay · Mercado Pago · AWS.</div>
+      </div>
+    </div>
+    <div class="card" style="display:flex;gap:24px;align-items:flex-start;padding:26px 30px;">
+      <div class="icon-circle"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3"/><circle cx="17" cy="11" r="2.5"/><path d="M3 20c1-3 4-5 7-5s5 1 7 4"/></svg></div>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;color:#fff;">Comunidad activa</div>
+        <div class="body" style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:6px;">Instagram 21k seguidores · WhatsApp con catálogo · 4 sucursales físicas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div style="position:absolute;left:100px;right:100px;bottom:60px;background:var(--orange);border-radius:12px;padding:22px 32px;display:flex;align-items:center;gap:18px;">
+    <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:14px;letter-spacing:.24em;color:#fff;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:6px;">INSIGHT</div>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:26px;color:#fff;">Optimizar antes de migrar.</div>
+  </div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">03 / 16</div>
+</section>
+
+<!-- ============ SLIDE 4 — SOCIAL COMMERCE ESTRATÉGICO ============ -->
+<section data-label="04 Social Commerce Estratégico">
+  <div class="paws">
+    <svg class="paw" style="top:90px;right:140px;width:80px;height:80px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:80px;left:80px;width:64px;height:64px;transform:rotate(15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SOCIAL COMMERCE</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;right:100px;">
+    <div class="script" style="font-size:36px;">donde la mascota se descubre, se confía y se compra</div>
+    <h1 class="h1" style="color:#fff;font-size:64px;margin:6px 0 0;line-height:1.05;">SOCIAL COMMERCE COMO<br>ACTIVO ESTRATÉGICO</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;top:480px;right:100px;display:grid;grid-template-columns:1fr 1fr;gap:36px;">
+    <div class="card" style="padding:38px 40px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--orange);font-size:22px;letter-spacing:.04em;">Visibilidad y Confianza</div>
+      <div style="height:2px;width:48px;background:var(--orange);margin:16px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.92);font-size:22px;line-height:1.5;">El rubro pet-care es <b>visual, emocional y comunitario</b>. Las redes no son solo vitrina: son <b>punto de conversión directa</b> y motor de confianza para una categoría donde el cuidado importa.</div>
+    </div>
+    <div class="card" style="padding:38px 40px;background:var(--cream);color:var(--espresso);">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--orange);font-size:22px;letter-spacing:.04em;">Objetivos clave</div>
+      <div style="height:2px;width:48px;background:var(--orange);margin:16px 0;"></div>
+      <div style="display:flex;flex-direction:column;gap:14px;font-size:19px;line-height:1.4;">
+        <div style="display:flex;gap:14px;align-items:flex-start;"><span class="check"></span><span>Reducir fricción <b>descubrimiento → compra</b></span></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;"><span class="check"></span><span>Omnicanalidad asistida vía <b>WhatsApp</b></span></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;"><span class="check"></span><span>Construcción de comunidad <b>"Manada Pet&amp;Go"</b></span></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;"><span class="check"></span><span>Activación de <b>catálogos sincronizados</b></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;"><span class="kpi-badge">RÚBRICA · IL2.1</span></div>
+
+  <div class="chrome-fl" style="left:240px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">04 / 16</div>
+</section>
+
+<!-- ============ SLIDE 5 — INSTAGRAM ============ -->
+<section data-label="05 Instagram">
+  <div class="paws">
+    <svg class="paw" style="top:60px;right:480px;width:60px;height:60px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:120px;left:60px;width:64px;height:64px;transform:rotate(20deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SOCIAL COMMERCE · INSTAGRAM</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;">
+    <div class="script" style="font-size:36px;">vitrina sólida, conversión a medias</div>
+    <h1 class="h1" style="color:#fff;font-size:78px;margin:6px 0 0;">INSTAGRAM</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <!-- Left blocks -->
+  <div style="position:absolute;left:100px;top:380px;width:980px;display:flex;flex-direction:column;gap:18px;">
+    <div class="card" style="padding:22px 28px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">FUNCIONALIDADES CLAVE</div>
+      <div class="body" style="color:#fff;font-size:18px;line-height:1.5;margin-top:6px;">Reels · Historias destacadas por sucursal · Link directo a WhatsApp/web · UGC "Manada Pet&amp;Go" · Botones Mensaje/Contacto.</div>
+    </div>
+    <div class="card" style="padding:22px 28px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">DATOS REALES</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;">
+        <span class="kpi-badge">21K SEGUIDORES</span>
+        <span class="kpi-badge">1.583 PUBS.</span>
+        <span class="kpi-badge">@PETANDGO_CHILE</span>
+      </div>
+    </div>
+    <div class="card" style="padding:22px 28px;border-left:4px solid var(--orange);">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">GAP DETECTADO</div>
+      <div class="body" style="color:#fff;font-size:18px;line-height:1.5;margin-top:6px;">Sin <b>Instagram Shop</b> activo · sin productos etiquetados → el usuario debe <b>salir de la app</b> para comprar.</div>
+    </div>
+
+    <!-- Recommendation banner -->
+    <div style="background:var(--orange);border-radius:12px;padding:22px 28px;display:flex;gap:16px;align-items:center;">
+      <span class="badge-rec">★ RECOMENDADO</span>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:19px;color:#fff;">Activar Instagram Shop vía Meta Commerce Manager + etiquetar productos en reels y publicaciones.</div>
+    </div>
+  </div>
+
+  <!-- Phone mockup right -->
+  <div style="position:absolute;right:100px;top:330px;">
+    <div class="phone">
+      <div class="phone-screen" style="height:540px;">
+        <div style="height:42px;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid #eee;font-weight:700;font-size:13px;">@petandgo_chile</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:2px;">
+          <div style="aspect-ratio:1;background-image:url('img/ig1.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig2.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig3.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig4.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig5.jpg');background-size:cover;background-position:center;position:relative;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.6));display:flex;align-items:flex-end;padding:5px;"><span style="color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:8px;letter-spacing:.1em;">UGC MANADA</span></div></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig6.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig7.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig8.jpg');background-size:cover;background-position:center;"></div>
+          <div style="aspect-ratio:1;background-image:url('img/ig9.jpg');background-size:cover;background-position:center;"></div>
+        </div>
+        <div style="padding:8px 10px;font-size:9px;color:#b00020;text-align:center;font-weight:700;letter-spacing:.04em;">[ Vitrina visual · SIN productos etiquetados → fricción al comprar ]</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;display:flex;gap:10px;"><span class="kpi-badge">RÚBRICA · IE2.1.1</span><span class="kpi-badge">IE2.1.2</span></div>
+  <div class="chrome-fl" style="left:340px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">05 / 16</div>
+</section>
+
+<!-- ============ SLIDE 6 — WHATSAPP BUSINESS ============ -->
+<section data-label="06 WhatsApp Business">
+  <div class="paws">
+    <svg class="paw" style="top:70px;right:480px;width:60px;height:60px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:130px;left:80px;width:60px;height:60px;transform:rotate(-15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SOCIAL COMMERCE · WHATSAPP</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;">
+    <div class="script" style="font-size:36px;">el canal que cierra la venta</div>
+    <h1 class="h1" style="color:#fff;font-size:74px;margin:6px 0 0;">WHATSAPP BUSINESS</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;top:380px;width:980px;display:flex;flex-direction:column;gap:18px;">
+    <div class="card" style="padding:22px 28px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">FUNCIONALIDADES ACTIVAS</div>
+      <div class="body" style="color:#fff;font-size:18px;line-height:1.5;margin-top:6px;">Mensaje automático con 6 puntos (horarios, despachos, sucursales) · Catálogo con productos / precios / stock CLP · Link directo desde Instagram.</div>
+    </div>
+    <div class="card" style="padding:22px 28px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">ROL ESTRATÉGICO</div>
+      <div class="body" style="color:#fff;font-size:18px;line-height:1.5;margin-top:6px;">Atención personalizada · venta asistida · postventa — clave en una <b>categoría de confianza</b>.</div>
+    </div>
+    <div class="card" style="padding:22px 28px;border-left:4px solid var(--orange);">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">GAP DETECTADO</div>
+      <div class="body" style="color:#fff;font-size:18px;line-height:1.5;margin-top:6px;">Sin menú guiado · sin respuestas rápidas · sin etiquetas para clasificar clientes.</div>
+    </div>
+
+    <div style="background:var(--orange);border-radius:12px;padding:22px 28px;display:flex;gap:16px;align-items:center;">
+      <span class="badge-rec">★ RECOMENDADO</span>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:19px;color:#fff;">Implementar menú: Catálogo / Despacho / Stock / Asesor / Seguimiento + respuestas rápidas y etiquetas.</div>
+    </div>
+  </div>
+
+  <!-- WhatsApp catalog mockup -->
+  <div style="position:absolute;right:100px;top:330px;">
+    <div class="phone">
+      <div class="phone-screen" style="height:540px;background:#ECE5DD;">
+        <div style="height:46px;background:#075E54;color:#fff;display:flex;align-items:center;padding:0 14px;font-size:13px;font-weight:700;">Pet&amp;Go · Catálogo</div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:10px;">
+          <div style="background:#fff;border-radius:8px;padding:10px;display:flex;gap:10px;">
+            <div style="width:50px;height:50px;background:linear-gradient(135deg,#E8A547,#5A3E2B);border-radius:6px;flex:none;"></div>
+            <div><div style="font-weight:700;font-size:11px;">Alimento Premium 15kg</div><div style="font-size:10px;color:#075E54;font-weight:700;margin-top:4px;">$32.990 CLP</div></div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:10px;display:flex;gap:10px;">
+            <div style="width:50px;height:50px;background:linear-gradient(135deg,#2E5F6F,#3A2417);border-radius:6px;flex:none;"></div>
+            <div><div style="font-weight:700;font-size:11px;">Snack Natural Gato</div><div style="font-size:10px;color:#075E54;font-weight:700;margin-top:4px;">$4.490 CLP</div></div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:10px;display:flex;gap:10px;">
+            <div style="width:50px;height:50px;background:linear-gradient(135deg,#F2C57C,#5A3E2B);border-radius:6px;flex:none;"></div>
+            <div><div style="font-weight:700;font-size:11px;">Arena Aglomerante 10L</div><div style="font-size:10px;color:#075E54;font-weight:700;margin-top:4px;">$8.990 CLP</div></div>
+          </div>
+          <div style="background:#DCF8C6;border-radius:8px;padding:8px 10px;font-size:10px;align-self:flex-end;max-width:80%;">¡Hola! ¿En qué te ayudamos hoy? 🐾</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;display:flex;gap:10px;"><span class="kpi-badge">RÚBRICA · IE2.1.1</span><span class="kpi-badge">IE2.1.2</span></div>
+  <div class="chrome-fl" style="left:340px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">06 / 16</div>
+</section>
+
+<!-- ============ SLIDE 7 — TIKTOK + FACEBOOK ============ -->
+<section data-label="07 Canales por Activar">
+  <div class="paws">
+    <svg class="paw" style="top:90px;right:120px;width:70px;height:70px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:130px;left:60px;width:60px;height:60px;transform:rotate(15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SOCIAL COMMERCE · OPORTUNIDAD</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;">
+    <div class="script" style="font-size:36px;">el espacio en blanco que es oportunidad</div>
+    <h1 class="h1" style="color:#fff;font-size:72px;margin:6px 0 0;">CANALES POR ACTIVAR</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;top:380px;right:100px;display:grid;grid-template-columns:1fr 1fr;gap:36px;">
+    <div class="card" style="padding:38px 40px;">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <div class="icon-circle" style="background:var(--espresso);"><svg viewBox="0 0 24 24" stroke="#E8A547"><path d="M14 4v10a4 4 0 11-4-4"/><path d="M14 4c0 3 2 5 5 5"/></svg></div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:30px;color:#fff;">TIKTOK</div>
+      </div>
+      <div style="height:2px;width:48px;background:var(--orange);margin:18px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.9);font-size:18px;line-height:1.5;">
+        Cuenta <b>@petandgo.chile</b> con presencia incipiente: <b>9 seguidores · 34 me gusta · 2 videos</b>. Sin enlaces a sitio / IG / WhatsApp.
+      </div>
+      <div style="margin-top:20px;background:rgba(232,165,71,.14);border-left:3px solid var(--orange);border-radius:8px;padding:14px 18px;">
+        <div class="mono-label" style="color:var(--orange);font-size:11px;">OPORTUNIDAD</div>
+        <div style="color:#fff;font-size:17px;line-height:1.4;margin-top:4px;">Contenido <b>educativo + emocional</b> (tips nutrición, cuidado, errores comunes) → audiencias jóvenes y viralidad orgánica.</div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:38px 40px;">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <div class="icon-circle" style="background:var(--espresso);"><svg viewBox="0 0 24 24" stroke="#E8A547"><path d="M14 6h3V3h-3a4 4 0 00-4 4v3H7v3h3v8h3v-8h3l1-3h-4V7c0-.6.4-1 1-1z"/></svg></div>
+        <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:24px;color:#fff;">FACEBOOK + MARKETPLACE</div>
+      </div>
+      <div style="height:2px;width:48px;background:var(--orange);margin:18px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.9);font-size:18px;line-height:1.5;">
+        No se identifica <b>página oficial activa</b>. Marketplace sin resultados en 25 km de Santiago.
+      </div>
+      <div style="margin-top:20px;background:rgba(232,165,71,.14);border-left:3px solid var(--orange);border-radius:8px;padding:14px 18px;">
+        <div class="mono-label" style="color:var(--orange);font-size:11px;">OPORTUNIDAD</div>
+        <div style="color:#fff;font-size:17px;line-height:1.4;margin-top:4px;">Crear página oficial + sincronizar <b>Facebook Shop</b> vía Meta Commerce Manager + Marketplace para alta rotación local.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;"><span class="kpi-badge">RÚBRICA · IE2.1.1</span></div>
+  <div class="chrome-fl" style="left:240px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">07 / 16</div>
+</section>
+
+<!-- ============ SLIDE 8 — SÍNTESIS SOCIAL COMMERCE ============ -->
+<section data-label="08 Síntesis Social Commerce">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:120px;width:70px;height:70px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:90px;left:60px;width:60px;height:60px;transform:rotate(15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SOCIAL COMMERCE · SÍNTESIS</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:120px;right:100px;">
+    <div class="script" style="font-size:34px;">el plan en una sola mirada</div>
+    <h1 class="h1" style="color:#fff;font-size:54px;margin:6px 0 0;">SÍNTESIS · USO ACTUAL → OPORTUNIDAD → IMPACTO</h1>
+    <div class="divider" style="margin-top:18px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;right:100px;top:340px;">
+    <table class="deck">
+      <thead>
+        <tr>
+          <th style="width:18%">Plataforma</th>
+          <th style="width:28%">Uso observado</th>
+          <th style="width:30%">Oportunidad estratégica</th>
+          <th style="width:24%">Impacto esperado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Instagram</b></td><td>21k seguidores, comunidad activa, sin Shop.</td><td>Activar IG Shop, etiquetar productos, CTAs claros.</td><td>Mayor tráfico al sitio y menos fricción.</td></tr>
+        <tr><td><b>WhatsApp Business</b></td><td>Catálogo activo, mensaje automático básico.</td><td>Menú guiado, respuestas rápidas, etiquetas.</td><td>Mayor cierre asistido y fidelización.</td></tr>
+        <tr><td><b>TikTok</b></td><td>Cuenta con baja actividad, sin CTAs.</td><td>Contenido educativo + emocional con CTAs.</td><td>Mayor awareness en audiencias jóvenes.</td></tr>
+        <tr><td><b>Facebook / Marketplace</b></td><td>Sin página oficial detectada.</td><td>Crear página + Shop + Marketplace local.</td><td>Mayor alcance local e integración Meta.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;"><span class="kpi-badge">RÚBRICA · IE2.1.2</span></div>
+  <div class="chrome-fl" style="left:240px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">08 / 16</div>
+</section>
+
+<!-- ============ SLIDE 9 — DIVIDER PLATAFORMAS ============ -->
+<section data-label="09 Sección · Plataformas">
+  <div class="paws">
+    <svg class="paw" style="top:120px;left:120px;width:90px;height:90px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:160px;right:160px;width:120px;height:120px;transform:rotate(-15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="top:50%;left:60%;width:60px;height:60px;transform:rotate(45deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">SECCIÓN · 02</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <!-- Decorative section number (background) -->
+  <div style="position:absolute;left:60px;top:60px;pointer-events:none;z-index:0;">
+    <div style="font-family:'Playfair Display',serif;font-weight:900;font-size:200px;color:rgba(232,165,71,.10);line-height:.85;">02</div>
+  </div>
+
+  <!-- Title block -->
+  <div style="position:absolute;left:100px;right:520px;top:50%;transform:translateY(-50%);z-index:2;">
+    <div class="script" style="font-size:48px;">arquitectura, costos y escalabilidad</div>
+    <h1 class="h1" style="color:#fff;font-size:108px;margin:12px 0 0;letter-spacing:.01em;line-height:1;">EVALUACIÓN<br>DE PLATAFORMAS</h1>
+    <div style="margin-top:32px;"><div class="divider" style="width:160px;"></div></div>
+  </div>
+
+  <!-- Photo discreet right -->
+  <div style="position:absolute;right:120px;top:50%;transform:translateY(-50%);width:340px;height:340px;border-radius:50%;background-image:url('img/mascota-circular.jpg');background-size:cover;background-position:center;opacity:.92;z-index:1;box-shadow:0 18px 50px rgba(0,0,0,.45), inset 0 0 0 6px rgba(232,165,71,.6);"></div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">09 / 16</div>
+</section>
+
+<!-- ============ SLIDE 10 — STACK ACTUAL ============ -->
+<section data-label="10 Stack Actual">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:130px;width:70px;height:70px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:240px;left:60px;width:60px;height:60px;transform:rotate(20deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">PLATAFORMAS · STACK</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:130px;">
+    <div class="script" style="font-size:36px;">lo que ya funciona y lo que se puede potenciar</div>
+    <h1 class="h1" style="color:#fff;font-size:72px;margin:6px 0 0;">STACK ACTUAL DE PET&amp;GO</h1>
+    <div class="divider" style="margin-top:20px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;top:380px;right:100px;display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+    <!-- Plataforma -->
+    <div class="card" style="padding:38px 40px;">
+      <div class="mono-label" style="color:var(--orange);font-size:13px;">PLATAFORMA</div>
+      <div style="height:2px;width:48px;background:var(--orange);margin:14px 0;"></div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="background:#fff;color:var(--espresso);font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;padding:10px 18px;border-radius:8px;">Bsale 5.5</div>
+          <span class="kpi-badge">DETECTADO</span>
+        </div>
+        <div style="color:rgba(255,255,255,.85);font-size:18px;line-height:1.5;">Verificación vía <b>Wappalyzer</b>.</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="background:rgba(255,255,255,.12);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;padding:10px 18px;border-radius:8px;">Shopify</div>
+          <span style="background:#9b6b3a;color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;padding:6px 14px;border-radius:8px;font-size:13px;">DETECCIÓN 50%</span>
+        </div>
+        <div style="color:rgba(255,255,255,.85);font-size:18px;line-height:1.5;">Validar técnicamente con acceso interno.</div>
+      </div>
+    </div>
+
+    <!-- Right 3 stacked -->
+    <div style="display:flex;flex-direction:column;gap:18px;">
+      <div class="card" style="padding:22px 28px;display:flex;gap:20px;align-items:flex-start;">
+        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M3 12l4-4m0 0l4 4m-4-4v12M21 12l-4 4m0 0l-4-4m4 4V4"/></svg></div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">Medición</div>
+          <div style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:4px;">GA4 · GTM · Google Ads Conversion Tracking · Facebook Pixel.</div>
+        </div>
+      </div>
+      <div class="card" style="padding:22px 28px;display:flex;gap:20px;align-items:flex-start;">
+        <div class="icon-circle"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h3"/></svg></div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">Pagos locales</div>
+          <div style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:4px;">Webpay Plus · Mercado Pago · Transferencia.</div>
+        </div>
+      </div>
+      <div class="card" style="padding:22px 28px;display:flex;gap:20px;align-items:flex-start;">
+        <div class="icon-circle"><svg viewBox="0 0 24 24"><path d="M3 16V8h11v8M14 8h4l3 4v4h-2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">Logística</div>
+          <div style="color:rgba(255,255,255,.82);font-size:17px;line-height:1.5;margin-top:4px;">Chilexpress · Despacho express ($3.990) · Same-day · Retiro 4 sucursales.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner -->
+  <div style="position:absolute;left:100px;right:100px;bottom:54px;background:var(--orange);border-radius:12px;padding:20px 28px;display:flex;align-items:center;gap:18px;">
+    <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:13px;letter-spacing:.24em;color:#fff;background:rgba(255,255,255,.18);padding:6px 12px;border-radius:6px;">INSIGHT</div>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:22px;color:#fff;">Una base operativa funcional con espacio para crecer.</div>
+  </div>
+
+  <div class="chrome-fl" style="left:240px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">10 / 16</div>
+</section>
+
+<!-- ============ SLIDE 11 — COMPARATIVA TÉCNICA-COMERCIAL (CREAM) ============ -->
+<section data-label="11 Comparativa Técnico-Comercial" class="light" style="background:var(--cream);color:var(--espresso);">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:140px;width:70px;height:70px;" fill="#3A2417"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:90px;left:60px;width:60px;height:60px;transform:rotate(15deg);" fill="#3A2417"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#3A2417"/></svg><span class="breadcrumb">PLATAFORMAS · COMPARATIVA</span></div>
+  <div class="chrome-tr"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:120px;right:100px;">
+    <div class="script" style="font-size:34px;">cuatro caminos posibles, una decisión</div>
+    <h1 class="h1" style="color:var(--espresso);font-size:60px;margin:6px 0 0;">COMPARATIVA TÉCNICO–COMERCIAL</h1>
+    <div class="divider" style="margin-top:18px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;right:100px;top:330px;">
+    <table class="deck light">
+      <thead>
+        <tr>
+          <th style="width:20%">Criterio</th>
+          <th>Shopify</th>
+          <th>WooCommerce</th>
+          <th>Jumpseller</th>
+          <th>VTEX</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Arquitectura</b></td><td>SaaS Global</td><td>Open Source</td><td>SaaS Local CL</td><td>Headless / Enterprise</td></tr>
+        <tr><td><b>Costos</b></td><td>Plan USD + apps</td><td>Bajo inicial, alta mantención</td><td>Plan CLP fijo</td><td>Alto</td></tr>
+        <tr><td><b>Escalabilidad</b></td><td>Alta</td><td>Depende hosting</td><td>Media-alta</td><td>Muy alta</td></tr>
+        <tr><td><b>Flexibilidad</b></td><td>Alta vía apps</td><td>Muy alta vía plugins</td><td>Media</td><td>Alta</td></tr>
+        <tr><td><b>Pagos locales</b></td><td>Vía integraciones</td><td>Vía plugins</td><td>Nativo CL</td><td>Enterprise</td></tr>
+        <tr><td><b>Operación</b></td><td>Intuitiva</td><td>Técnica</td><td>Simple/local</td><td>Compleja</td></tr>
+        <tr><td><b>Riesgo</b></td><td>Costo en USD</td><td>Mantención técnica</td><td>Menor ecosistema</td><td>Alto costo</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="position:absolute;left:100px;bottom:54px;"><span class="kpi-badge">RÚBRICA · IE2.2.1 (15%)</span></div>
+  <div class="chrome-fl" style="left:280px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">11 / 16</div>
+</section>
+
+<!-- ============ SLIDE 12 — TCO 12 MESES (KEY 20%) ============ -->
+<section data-label="12 TCO 12 Meses">
+  <div class="paws">
+    <svg class="paw" style="top:60px;right:120px;width:60px;height:60px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:60px;left:60px;width:60px;height:60px;transform:rotate(15deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">PLATAFORMAS · TCO</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:110px;right:100px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
+    <div>
+      <div class="script" style="font-size:34px;">la decisión más simple que es segura</div>
+      <h1 class="h1" style="color:#fff;font-size:54px;margin:6px 0 0;">TCO 12 MESES Y PLATAFORMA RECOMENDADA</h1>
+      <div class="divider" style="margin-top:14px;"></div>
+    </div>
+    <div style="background:var(--yellow);color:var(--espresso);padding:10px 18px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:900;letter-spacing:.16em;font-size:14px;flex:none;">PESO 20%</div>
+  </div>
+
+  <!-- Bar chart -->
+  <div style="position:absolute;left:100px;top:300px;right:100px;display:flex;flex-direction:column;gap:16px;">
+    <!-- Each bar: label | bar | tag -->
+    <div style="display:grid;grid-template-columns:200px 1fr 220px;align-items:center;gap:20px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">Jumpseller</div>
+      <div style="height:42px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;">
+        <div style="width:35%;height:100%;background:linear-gradient(90deg,#3B7384,#2E5F6F);display:flex;align-items:center;padding-left:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:14px;">CLP fijo · local</div>
+      </div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:#A8D5C6;">BAJO–MEDIO</div>
+    </div>
+    <div style="display:grid;grid-template-columns:200px 1fr 220px;align-items:center;gap:20px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">WooCommerce</div>
+      <div style="height:42px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;">
+        <div style="width:55%;height:100%;background:linear-gradient(90deg,#FCD34D,#E8A547);display:flex;align-items:center;padding-left:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:var(--espresso);font-size:14px;">Bajo + alta mantención</div>
+      </div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:#FCD34D;">MEDIO</div>
+    </div>
+    <div style="display:grid;grid-template-columns:200px 1fr 220px;align-items:center;gap:20px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">Shopify</div>
+      <div style="height:42px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;">
+        <div style="width:75%;height:100%;background:linear-gradient(90deg,#E8A547,#C97A3F);display:flex;align-items:center;padding-left:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:14px;">USD + apps</div>
+      </div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:#F2C57C;">MEDIO–ALTO</div>
+    </div>
+    <div style="display:grid;grid-template-columns:200px 1fr 220px;align-items:center;gap:20px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:#fff;">VTEX</div>
+      <div style="height:42px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;">
+        <div style="width:95%;height:100%;background:linear-gradient(90deg,#B85042,#7C2A1E);display:flex;align-items:center;padding-left:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:14px;">Enterprise · costo alto</div>
+      </div>
+      <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:15px;color:#E8806B;">MUY ALTO</div>
+    </div>
+  </div>
+
+  <!-- Justification 3 cols -->
+  <div style="position:absolute;left:100px;right:100px;top:600px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+    <div class="card outline" style="padding:24px 26px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">TÉCNICO</div>
+      <div style="height:2px;width:36px;background:var(--orange);margin:10px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.92);font-size:17px;line-height:1.5;">Stack actual (<b>Bsale + GA4 + Webpay</b>) ya cubre lo crítico. Migrar sin necesidad implica riesgo y costo.</div>
+    </div>
+    <div class="card outline" style="padding:24px 26px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">OPERATIVO</div>
+      <div style="height:2px;width:36px;background:var(--orange);margin:10px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.92);font-size:17px;line-height:1.5;">El sitio ya opera con catálogo, checkout, pagos locales y logística. <b>La operación NO está rota.</b></div>
+    </div>
+    <div class="card outline" style="padding:24px 26px;">
+      <div class="mono-label" style="color:var(--orange);font-size:12px;">ESTRATÉGICO</div>
+      <div style="height:2px;width:36px;background:var(--orange);margin:10px 0;"></div>
+      <div class="body" style="color:rgba(255,255,255,.92);font-size:17px;line-height:1.5;">Optimizar UX/UI + activar social commerce + medición rinde más que migrar. A futuro → <b>Jumpseller</b>.</div>
+    </div>
+  </div>
+
+  <!-- Banner bottom -->
+  <div style="position:absolute;left:100px;right:100px;bottom:54px;background:var(--orange);border-radius:12px;padding:18px 26px;display:flex;align-items:center;gap:14px;">
+    <span class="badge-rec">★ RECOMENDACIÓN</span>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;color:#fff;">Optimizar Bsale actual · Jumpseller como migración futura · VTEX descartar (enterprise).</div>
+    <span class="kpi-badge" style="margin-left:auto;">RÚBRICA · IE2.2.2</span>
+  </div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">12 / 16</div>
+</section>
+
+<!-- ============ SLIDE 13 — PLAN DE IMPLEMENTACIÓN (CREAM) ============ -->
+<section data-label="13 Plan de Implementación" class="light" style="background:var(--cream);color:var(--espresso);">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:130px;width:70px;height:70px;" fill="#3A2417"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:90px;left:80px;width:60px;height:60px;transform:rotate(20deg);" fill="#3A2417"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#3A2417"/></svg><span class="breadcrumb">PLATAFORMAS · IMPLEMENTACIÓN</span></div>
+  <div class="chrome-tr"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:120px;right:100px;">
+    <div class="script" style="font-size:34px;">del diagnóstico a la ejecución</div>
+    <h1 class="h1" style="color:var(--espresso);font-size:64px;margin:6px 0 0;">PLAN DE IMPLEMENTACIÓN</h1>
+    <div class="divider" style="margin-top:16px;"></div>
+  </div>
+
+  <div style="position:absolute;left:100px;right:100px;top:320px;">
+    <table class="deck light" style="font-size:16px;">
+      <thead>
+        <tr>
+          <th style="width:18%">Hito</th>
+          <th style="width:34%">Acción</th>
+          <th style="width:24%">Riesgo</th>
+          <th style="width:24%">Mitigación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Auditoría técnica</b></td><td>Confirmar plataforma, eventos, píxeles.</td><td>Detección incompleta.</td><td>Complementar Wappalyzer + acceso interno.</td></tr>
+        <tr><td><b>Catálogo</b></td><td>Revisar SKU, precios, stock, imágenes.</td><td>Productos mal ordenados.</td><td>Estándar de carga.</td></tr>
+        <tr><td><b>Pagos</b></td><td>Validar Webpay, MP, transferencia.</td><td>Falla en checkout.</td><td>Compra de prueba.</td></tr>
+        <tr><td><b>Logística</b></td><td>Revisar Chilexpress, express, retiro.</td><td>Confusión en costos.</td><td>Mostrar condiciones antes del pago.</td></tr>
+        <tr><td><b>Social commerce</b></td><td>Sincronizar catálogo Meta Commerce Manager.</td><td>Catálogo rechazado.</td><td>Revisar políticas Meta.</td></tr>
+        <tr><td><b>UX/UI</b></td><td>Mejorar ficha, carrito, CTA, mobile.</td><td>Cambios sin impacto.</td><td>Priorizar mejoras medibles.</td></tr>
+        <tr><td><b>Medición</b></td><td>Revisar GA4, GTM, Ads, Pixel.</td><td>Datos incompletos.</td><td>Definir eventos clave.</td></tr>
+        <tr><td><b>Optimización</b></td><td>Medir conversión, abandono, consultas.</td><td>No usar datos.</td><td>Revisión mensual KPIs.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">13 / 16</div>
+</section>
+
+<!-- ============ SLIDE 14 — CUSTOMER JOURNEY ============ -->
+<section data-label="14 Customer Journey">
+  <div class="paws">
+    <svg class="paw" style="top:60px;right:120px;width:60px;height:60px;" fill="#F2C57C"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:60px;left:60px;width:60px;height:60px;transform:rotate(20deg);" fill="#F2C57C"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb">CUSTOMER JOURNEY</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:110px;right:100px;">
+    <div class="script" style="font-size:34px;">del descubrimiento a la recompra</div>
+    <h1 class="h1" style="color:#fff;font-size:64px;margin:6px 0 0;">CUSTOMER JOURNEY MAP</h1>
+    <div class="divider" style="margin-top:16px;"></div>
+  </div>
+
+  <!-- Timeline with 5 nodes -->
+  <div style="position:absolute;left:100px;right:100px;top:280px;">
+    <div style="position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:center;">
+      <div style="position:absolute;left:6%;right:6%;top:32px;height:2px;background:linear-gradient(90deg,var(--orange),var(--orange-2),var(--orange));z-index:0;"></div>
+      <!-- Nodes -->
+      <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;"><div style="width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:900;color:#fff;font-size:22px;">01</div><div style="margin-top:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:18px;letter-spacing:.06em;text-transform:uppercase;">Awareness</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;"><div style="width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:900;color:#fff;font-size:22px;">02</div><div style="margin-top:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:18px;letter-spacing:.06em;text-transform:uppercase;">Consideración</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;"><div style="width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:900;color:#fff;font-size:22px;">03</div><div style="margin-top:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:18px;letter-spacing:.06em;text-transform:uppercase;">Decisión</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;"><div style="width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:900;color:#fff;font-size:22px;">04</div><div style="margin-top:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:18px;letter-spacing:.06em;text-transform:uppercase;">Compra</div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;"><div style="width:64px;height:64px;border-radius:50%;background:var(--orange);display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:900;color:#fff;font-size:22px;">05</div><div style="margin-top:14px;font-family:'Montserrat',sans-serif;font-weight:800;color:#fff;font-size:18px;letter-spacing:.06em;text-transform:uppercase;">Postventa</div></div>
+    </div>
+  </div>
+
+  <!-- Rows -->
+  <div style="position:absolute;left:100px;right:100px;top:430px;display:grid;grid-template-rows:auto auto auto;gap:14px;">
+    <!-- Row touchpoints -->
+    <div style="display:grid;grid-template-columns:140px repeat(5,1fr);gap:10px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.18em;color:var(--orange);align-self:center;text-transform:uppercase;">Touchpoints</div>
+      <div class="card outline" style="padding:14px 16px;font-size:14px;line-height:1.4;color:#fff;">IG · Reels · Google · TikTok · tienda física.</div>
+      <div class="card outline" style="padding:14px 16px;font-size:14px;line-height:1.4;color:#fff;">Sitio · buscador · filtros · fichas · WhatsApp.</div>
+      <div class="card outline" style="padding:14px 16px;font-size:14px;line-height:1.4;color:#fff;">Ficha · stock · ingredientes · WA · políticas.</div>
+      <div class="card outline" style="padding:14px 16px;font-size:14px;line-height:1.4;color:#fff;">Carrito · checkout · Webpay/MP · despacho.</div>
+      <div class="card outline" style="padding:14px 16px;font-size:14px;line-height:1.4;color:#fff;">WhatsApp · Chilexpress · retiro · correo · RRSS.</div>
+    </div>
+    <!-- Row pain -->
+    <div style="display:grid;grid-template-columns:140px repeat(5,1fr);gap:10px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.18em;color:var(--orange);align-self:center;text-transform:uppercase;">Dolor / Pain</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(184,80,66,.18);border-left:3px solid #B85042;">Sin IG Shop · TikTok dormido.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(184,80,66,.18);border-left:3px solid #B85042;">Info dispersa · sin reseñas.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(184,80,66,.30);border-left:3px solid #B85042;"><b>Dudas envío y devoluciones.</b></div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(184,80,66,.30);border-left:3px solid #B85042;"><b>Muchos pasos · costos visibles tarde.</b></div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(184,80,66,.18);border-left:3px solid #B85042;">Sin flujo automatizado de seguimiento.</div>
+    </div>
+    <!-- Row metrics -->
+    <div style="display:grid;grid-template-columns:140px repeat(5,1fr);gap:10px;">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.18em;color:var(--orange);align-self:center;text-transform:uppercase;">Métricas</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(46,95,111,.28);">Alcance · CTR · visitas perfil.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(46,95,111,.28);">Páginas vistas · uso buscador · clics WA.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(46,95,111,.28);">Add-to-cart · consultas producto.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(46,95,111,.28);">Conversión · abandono carrito/checkout.</div>
+      <div class="card" style="padding:14px 16px;font-size:14px;line-height:1.4;background:rgba(46,95,111,.28);">NPS · recompra · tiempo respuesta.</div>
+    </div>
+  </div>
+
+  <div style="position:absolute;left:100px;right:100px;bottom:54px;display:flex;justify-content:space-between;align-items:center;gap:20px;">
+    <div style="font-family:'Caveat',cursive;font-size:32px;color:var(--orange-2);">La mayor fricción se concentra entre <b style="color:#fff;">Decisión</b> y <b style="color:#fff;">Compra</b>.</div>
+    <span class="kpi-badge">RÚBRICA · IE2.3.1 (15%)</span>
+  </div>
+
+  <div class="chrome-fl" style="left:240px;">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">14 / 16</div>
+</section>
+
+<!-- ============ SLIDE 15 — UX/UI MEJORAS (KEY 20%) ============ -->
+<section data-label="15 Fricción → Mejora → Métrica" class="light" style="background:var(--cream);color:var(--espresso);">
+  <div class="paws">
+    <svg class="paw" style="top:80px;right:130px;width:70px;height:70px;" fill="#3A2417"><use href="#paw"/></svg>
+    <svg class="paw" style="bottom:90px;left:80px;width:60px;height:60px;transform:rotate(20deg);" fill="#3A2417"><use href="#paw"/></svg>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#3A2417"/></svg><span class="breadcrumb">UX/UI · MEJORAS</span></div>
+  <div class="chrome-tr"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <div style="position:absolute;left:100px;top:110px;right:100px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
+    <div>
+      <div class="script" style="font-size:34px;">ux que se nota en la conversión</div>
+      <h1 class="h1" style="color:var(--espresso);font-size:60px;margin:6px 0 0;">FRICCIÓN → MEJORA → MÉTRICA</h1>
+      <div class="divider" style="margin-top:14px;"></div>
+    </div>
+    <div style="background:var(--yellow);color:var(--espresso);padding:10px 18px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:900;letter-spacing:.16em;font-size:14px;flex:none;">PESO 20%</div>
+  </div>
+
+  <!-- Left: table -->
+  <div style="position:absolute;left:100px;top:300px;width:1100px;">
+    <table class="deck light" style="font-size:14px;">
+      <thead>
+        <tr>
+          <th style="width:32%">Fricción detectada</th>
+          <th style="width:40%">Mejora UX/UI</th>
+          <th style="width:28%">Métrica objetivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Menú con muchas categorías</td><td>Simplificar y destacar Perros / Gatos / Alimentos / Farmacia / Ofertas.</td><td>Menor rebote, más navegación.</td></tr>
+        <tr><td>Filtros limitados</td><td>Filtros por marca, especie, edad, tamaño, precio.</td><td>Más uso de filtros.</td></tr>
+        <tr><td>Ficha extensa en bloque</td><td>Pestañas: Beneficios / Ingredientes / Despacho.</td><td>Más tiempo útil + add-to-cart.</td></tr>
+        <tr><td>Despacho no visible en ficha</td><td>Bloque "Despacho mismo día / Chilexpress / Retiro" junto al CTA.</td><td>Menor abandono pre-carrito.</td></tr>
+        <tr><td>Poca prueba social</td><td>Reseñas verificadas + fotos clientes.</td><td>Mayor conversión en ficha.</td></tr>
+        <tr><td>Checkout con varios pasos</td><td>Barra de progreso Identificación → Envío → Pago.</td><td>Mayor finalización checkout.</td></tr>
+        <tr><td>WA sin menú guiado</td><td>Catálogo / Despacho / Stock / Asesor / Seguimiento.</td><td>Menor tiempo respuesta.</td></tr>
+        <tr><td>Social commerce desconectado</td><td>IG Shop activo + productos etiquetados.</td><td>Mayor CTR social.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Right: wireframe mockup -->
+  <div style="position:absolute;right:100px;top:300px;width:580px;display:flex;flex-direction:column;gap:14px;">
+    <div style="background:#fff;border:1.5px solid var(--brown);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(58,36,23,.12);">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.16em;color:var(--orange);text-transform:uppercase;">Wireframe · Ficha optimizada</div>
+      <div style="display:grid;grid-template-columns:160px 1fr;gap:14px;margin-top:10px;">
+        <div style="aspect-ratio:1;background:repeating-linear-gradient(45deg,#EDE5DC 0 8px,#dcd0c2 8px 16px);border-radius:8px;display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-size:10px;color:var(--brown);letter-spacing:.16em;">FOTO PRODUCTO</div>
+        <div>
+          <div style="background:var(--brown);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;padding:6px 10px;border-radius:6px;display:inline-block;">Alimento Premium 15kg</div>
+          <div style="height:6px;background:#e0d6c8;border-radius:3px;margin-top:8px;width:80%;"></div>
+          <div style="height:6px;background:#e0d6c8;border-radius:3px;margin-top:6px;width:60%;"></div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+            <div style="background:var(--orange);color:#fff;font-size:10px;padding:4px 8px;border-radius:4px;font-weight:700;">BENEFICIOS</div>
+            <div style="background:#e0d6c8;color:var(--brown);font-size:10px;padding:4px 8px;border-radius:4px;font-weight:700;">INGREDIENTES</div>
+            <div style="background:#e0d6c8;color:var(--brown);font-size:10px;padding:4px 8px;border-radius:4px;font-weight:700;">DESPACHO</div>
+          </div>
+          <div style="margin-top:10px;background:rgba(46,95,111,.12);border:1px dashed var(--teal);border-radius:6px;padding:6px 8px;font-size:10px;color:var(--teal);font-weight:700;">📦 Mismo día · Chilexpress · Retiro 4 sucursales</div>
+          <div style="margin-top:8px;background:var(--orange);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;padding:8px;border-radius:6px;text-align:center;">AGREGAR AL CARRITO →</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:6px;align-items:center;">
+        <div style="font-size:10px;color:var(--orange);font-weight:700;">★★★★★</div>
+        <div style="font-size:10px;color:var(--brown);">128 reseñas verificadas</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1.5px solid var(--brown);border-radius:14px;padding:16px;box-shadow:0 6px 18px rgba(58,36,23,.12);">
+      <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:13px;letter-spacing:.16em;color:var(--orange);text-transform:uppercase;">Wireframe · Checkout</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;align-items:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;">1</div><div style="font-size:11px;font-weight:700;color:var(--espresso);">Identificación</div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;">2</div><div style="font-size:11px;font-weight:700;color:var(--espresso);">Envío</div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;"><div style="width:32px;height:32px;border-radius:50%;background:#e0d6c8;color:var(--brown);display:grid;place-items:center;font-weight:800;font-size:13px;">3</div><div style="font-size:11px;font-weight:700;color:var(--brown);">Pago</div></div>
+      </div>
+      <div style="height:4px;background:#e0d6c8;border-radius:2px;margin-top:14px;position:relative;overflow:hidden;">
+        <div style="position:absolute;left:0;top:0;height:100%;width:66%;background:var(--orange);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banner bottom -->
+  <div style="position:absolute;left:100px;right:100px;bottom:54px;background:var(--orange);border-radius:12px;padding:18px 26px;display:flex;align-items:center;gap:14px;">
+    <span class="badge-rec">★ META</span>
+    <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:18px;color:#fff;">Aumentar tasa de conversión <b>+15%</b> y reducir abandono de carrito.</div>
+    <span class="kpi-badge" style="margin-left:auto;">RÚBRICA · IE2.3.2</span>
+  </div>
+
+  <div class="chrome-fl">CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE — 002V</div>
+  <div class="chrome-fr">15 / 16</div>
+</section>
+
+<!-- ============ SLIDE 16 — CIERRE ============ -->
+<section data-label="16 Gracias">
+  <!-- Photo background -->
+  <div style="position:absolute;inset:0;background-image:url('img/familia-golden.jpg');background-size:cover;background-position:center;">
+    <div style="position:absolute;inset:0;background:
+      linear-gradient(135deg, rgba(58,36,23,.55) 0%, rgba(42,24,16,.78) 100%),
+      radial-gradient(60% 70% at 20% 60%, rgba(46,95,111,.18), transparent 60%);"></div>
+  </div>
+
+  <div class="chrome-tl"><svg class="paw-tl"><use href="#paw" fill="#fff"/></svg><span class="breadcrumb" style="color:rgba(255,255,255,.85)">CIERRE</span></div>
+  <div class="chrome-tr" style="color:#fff"><span>SEDE PLAZA VESPUCIO</span><div class="duoc-mark">D</div></div>
+
+  <!-- Center card -->
+  <div style="position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:1180px;background:rgba(58,36,23,.82);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:60px 72px 56px;text-align:center;">
+    <div class="script" style="font-size:42px;">Pet&amp;Go, decisiones tomadas con confianza</div>
+    <h1 class="h1" style="color:#fff;font-size:180px;margin:8px 0 0;letter-spacing:.04em;">GRACIAS</h1>
+    <div style="display:flex;justify-content:center;margin-top:20px;"><div class="divider" style="width:160px;"></div></div>
+
+    <div style="margin-top:36px;font-size:42px;">
+      <span class="logo-lockup">
+        <span class="pet" style="font-size:.7em;">PET</span><span class="amp" style="font-size:.7em;">&amp;</span><span class="go" style="font-size:.7em;">GO</span>
+        <span class="logo-expert" style="font-size:.55em;">Expert</span>
+      </span>
+    </div>
+    <div class="logo-est" style="font-size:11px;letter-spacing:.5em;color:var(--orange-2);margin-top:6px;">— EST · 2007 —</div>
+  </div>
+
+  <!-- 3 conclusions bottom -->
+  <div style="position:absolute;left:100px;right:100px;bottom:120px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+    <div class="card" style="padding:18px 22px;display:flex;gap:14px;align-items:center;background:rgba(58,36,23,.85);">
+      <div class="icon-circle" style="width:48px;height:48px;"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></div>
+      <div><div style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--orange);font-size:13px;letter-spacing:.14em;text-transform:uppercase;">Social Commerce</div><div style="color:#fff;font-size:14px;line-height:1.4;margin-top:2px;">IG Shop · WhatsApp guiado · TikTok · Facebook.</div></div>
+    </div>
+    <div class="card" style="padding:18px 22px;display:flex;gap:14px;align-items:center;background:rgba(58,36,23,.85);">
+      <div class="icon-circle" style="width:48px;height:48px;"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></div>
+      <div><div style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--orange);font-size:13px;letter-spacing:.14em;text-transform:uppercase;">Plataforma</div><div style="color:#fff;font-size:14px;line-height:1.4;margin-top:2px;">Optimizar Bsale · Jumpseller a futuro.</div></div>
+    </div>
+    <div class="card" style="padding:18px 22px;display:flex;gap:14px;align-items:center;background:rgba(58,36,23,.85);">
+      <div class="icon-circle" style="width:48px;height:48px;"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 18h4"/></svg></div>
+      <div><div style="font-family:'Montserrat',sans-serif;font-weight:800;color:var(--orange);font-size:13px;letter-spacing:.14em;text-transform:uppercase;">UX/UI</div><div style="color:#fff;font-size:14px;line-height:1.4;margin-top:2px;">Ficha · checkout simple · prueba social · mobile-first.</div></div>
+    </div>
+  </div>
+
+  <div class="chrome-fl">MKA1216 — CANALES DE DISTRIBUCIÓN &amp; ECOMMERCE · DUOC UC · SEDE PLAZA VESPUCIO</div>
+  <div class="chrome-fr">16 / 16</div>
+</section>
+
+</deck-stage>
+
+</body>
+</html>
