@@ -117,9 +117,46 @@
     box-shadow:0 18px 40px rgba(0,0,0,.45);
   }
   .phone-screen{background:#fff;border-radius:24px;overflow:hidden;color:#111;font-size:12px;}
+
+  /* Floating nav buttons (over deck-stage host) */
+  .nav-btn{
+    position:fixed;top:50%;transform:translateY(-50%);
+    width:64px;height:64px;border-radius:50%;
+    background:rgba(232,165,71,.92);color:#fff;border:none;
+    font-size:30px;font-weight:900;font-family:'Montserrat',sans-serif;
+    cursor:pointer;z-index:99999;
+    box-shadow:0 8px 24px rgba(0,0,0,.45);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .18s ease, background .18s ease, opacity .18s ease;
+    opacity:.85;
+  }
+  .nav-btn:hover{background:#E8A547;transform:translateY(-50%) scale(1.08);opacity:1;}
+  .nav-btn:active{transform:translateY(-50%) scale(.96);}
+  .nav-btn.prev{left:24px;}
+  .nav-btn.next{right:24px;}
+  @media (max-width:640px){
+    .nav-btn{width:52px;height:52px;font-size:24px;}
+    .nav-btn.prev{left:12px;} .nav-btn.next{right:12px;}
+  }
 </style>
 </head>
 <body>
+
+<!-- Floating nav buttons (mirrors keyboard ←/→) -->
+<button class="nav-btn prev" id="nav-prev" aria-label="Slide anterior" title="Slide anterior (←)">◀</button>
+<button class="nav-btn next" id="nav-next" aria-label="Slide siguiente" title="Slide siguiente (→)">▶</button>
+<script>
+(function(){
+  function fire(key, code){
+    var ev = new KeyboardEvent('keydown', {key:key, code:code, bubbles:true, cancelable:true});
+    document.dispatchEvent(ev);
+    var stage = document.querySelector('deck-stage');
+    if (stage) stage.dispatchEvent(new KeyboardEvent('keydown', {key:key, code:code, bubbles:true}));
+  }
+  document.getElementById('nav-prev').addEventListener('click', function(e){e.preventDefault(); fire('ArrowLeft','ArrowLeft');});
+  document.getElementById('nav-next').addEventListener('click', function(e){e.preventDefault(); fire('ArrowRight','ArrowRight');});
+})();
+</script>
 
 <script type="application/json" id="speaker-notes">[]</script>
 
